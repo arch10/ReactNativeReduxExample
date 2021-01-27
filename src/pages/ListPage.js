@@ -1,27 +1,45 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, FlatList } from "react-native";
 import ListItem from "../components/ListItem";
 import Header from "../components/Header";
 
 class ListPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  async loadData() {
+    const url = "https://api.openbrewerydb.org/breweries";
+    try {
+      const response = await fetch(url);
+      const body = await response.json();
+      this.setState({ data: body });
+    } catch (error) {
+      console.log("An error occured while getting data.");
+    }
+  }
+
   render() {
     return (
       <SafeAreaView>
         <Header title="Brewery List" />
-        <ListItem
-          title="Avondale Brewing Co"
-          subtitle="micro"
-          index={1}
-        />
-        <ListItem
-          title="Trim Tab Brewing"
-          subtitle="micro"
-          index={2}
-        />
-        <ListItem
-          title="Yellowhammer Brewery"
-          subtitle="micro"
-          index={3}
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item, index }) => (
+            <ListItem
+              title={item.name}
+              subtitle={item.brewery_type}
+              index={index + 1}
+            />
+          )}
+          keyExtractor={(item) => item.id}
         />
       </SafeAreaView>
     );
