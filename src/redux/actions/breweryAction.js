@@ -2,7 +2,7 @@ import {
   BREWERY_SUCCESS,
   BREWERY_FAILURE,
   BREWERY_PROGRESS
-} from '../actionTypes';
+} from "../actionTypes";
 
 function success(response) {
   return {
@@ -25,8 +25,16 @@ function progress() {
 }
 
 export function getBrewery() {
-  return (dispatch) => {
-    //TODO("Get response from API and dispatch an appropriate action")
-    console.log('Called getBrewery action');
+  return async (dispatch) => {
+    const url = "https://api.openbrewerydb.org/breweries";
+    dispatch(progress);
+    try {
+      const response = await fetch(url);
+      const body = await response.json();
+      dispatch(success(body));
+    } catch (error) {
+      console.log("An error occured while getting data.");
+      dispatch(failure("An error occured while getting data."));
+    }
   };
 }
