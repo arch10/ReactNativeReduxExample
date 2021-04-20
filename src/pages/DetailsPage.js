@@ -3,6 +3,7 @@ import { SafeAreaView, Text, View } from "react-native";
 import Header from "../components/Header";
 
 function DetailsPage({ navigation }) {
+  const name = navigation.getParam("name", "ANN");
   return (
     <SafeAreaView>
       <Header title="Brew Details" onBackPress={() => navigation.goBack()} />
@@ -15,7 +16,7 @@ function DetailsPage({ navigation }) {
               marginStart: 8,
               flex: 1
             }}>
-            ANN
+            {name}
           </Text>
         </View>
       </View>

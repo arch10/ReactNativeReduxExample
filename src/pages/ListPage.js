@@ -22,7 +22,7 @@ class ListPage extends React.Component {
       const body = await response.json();
       this.setState({ data: body });
     } catch (error) {
-      console.log("An error occured while getting data.");
+      console.log("An error occurred while getting data.");
     }
   }
 
@@ -37,9 +37,14 @@ class ListPage extends React.Component {
               title={item.name}
               subtitle={item.brewery_type}
               index={index + 1}
+              onPress={() => {
+                this.props.navigation.navigate("Details", {
+                  name: item.name
+                });
+              }}
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
         />
       </SafeAreaView>
     );
