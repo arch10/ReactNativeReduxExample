@@ -12,7 +12,6 @@ class ListPage extends React.Component {
   }
 
   render() {
-    console.log("Data length: " + this.props.brewery.data.length);
     return (
       <SafeAreaView>
         <Header title="Brewery List" />
@@ -23,6 +22,11 @@ class ListPage extends React.Component {
               title={item.name}
               subtitle={item.brewery_type}
               index={index + 1}
+              onPress={() => {
+                this.props.navigation.navigate("Details", {
+                  name: item.name
+                });
+              }}
             />
           )}
           keyExtractor={(item) => item.id.toString()}
